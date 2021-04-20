@@ -16,9 +16,9 @@ class GithubDataRepository @Inject constructor(
     private val githubService: GithubService,
     private val dao: RepositoriesDao
 ) {
-    fun getRepositories() = Pager(
+    fun getRepositories(sortOption: GithubService.SortOptions) = Pager(
         PagingConfig(20, 40, false),
-        pagingSourceFactory = { RepositoriesPagingSource(githubService) }
+        pagingSourceFactory = { RepositoriesPagingSource(githubService, sortOption) }
     ).liveData
 
     private suspend fun saveRepositories(repositories: List<GithubRepository>) =
