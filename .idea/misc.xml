@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Wojtek/AndroidStudioProjects/Allegro/app/src/main/res/layout/activity_main.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/Wojtek/AndroidStudioProjects/Allegro/app/src/main/res/layout/fragment_list.xml" value="0.2" />
+        <entry key="..\:/Users/Wojtek/AndroidStudioProjects/Allegro/app/src/main/res/layout/github_repositories_load_state_footer.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/Wojtek/AndroidStudioProjects/Allegro/app/src/main/res/layout/item_github_repository.xml" value="0.33" />
       </map>
     </option>
   </component>

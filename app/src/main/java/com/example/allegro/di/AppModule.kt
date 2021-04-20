@@ -1,12 +1,15 @@
 package com.example.allegro.di
 
-import com.example.allegro.api.GithubRepositoriesRemoteDataSource
-import com.example.allegro.api.GithubRepository
+import android.content.Context
+import com.example.allegro.api.GithubDataRepository
 import com.example.allegro.api.GithubService
+import com.example.allegro.db.RepositoriesDao
+import com.example.allegro.db.RepositoriesDatabase
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,7 +22,6 @@ object AppModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create()
-//        val gson = GsonBuilder().create()
         return Retrofit.Builder()
             .baseUrl(GithubService.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -33,11 +35,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesGithubRepositoriesRemoteDataSource(githubService: GithubService): GithubRepositoriesRemoteDataSource =
-        GithubRepositoriesRemoteDataSource(githubService)
+    fun providesRepositoriesDatabase(@ApplicationContext appContext: Context): RepositoriesDatabase =
+        RepositoriesDatabase.getDatabase(appContext)
 
     @Provides
     @Singleton
-    fun providesGithubRepository(dataSource: GithubRepositoriesRemoteDataSource): GithubRepository =
-        GithubRepository(dataSource)
+    fun providesRepositoriesDao(database: RepositoriesDatabase): RepositoriesDao = database.repositoriesDao()
+
+    @Provides
+    @Singleton
+    fun providesGithubRepository(githubService: GithubService, dao: RepositoriesDao): GithubDataRepository =
+        GithubDataRepository(githubService, dao)
 }

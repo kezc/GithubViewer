@@ -1,8 +1,8 @@
 package com.example.allegro.api
 
-import com.example.allegro.data.GithubSingleRepository
-import retrofit2.Response
+import com.example.allegro.data.GithubRepository
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface GithubService {
 
@@ -11,6 +11,9 @@ interface GithubService {
     }
 
     @GET("orgs/allegro/repos")
-    suspend fun searchRepositories(): Response<List<GithubSingleRepository>>
+    suspend fun searchRepositories(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+    ): List<GithubRepository>
 
 }

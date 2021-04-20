@@ -1,8 +1,13 @@
 package com.example.allegro.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
-data class GithubSingleRepository(
+@Entity(tableName = "repository")
+data class GithubRepository(
+    @PrimaryKey
+    val id: Long,
     val name: String,
     val description: String,
     val stargazers_count: Int,
