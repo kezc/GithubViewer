@@ -6,11 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.example.allegro.data.GithubContributor
-import com.example.allegro.data.GithubRepository
 import com.example.allegro.data.RepositoriesPagingSource
 import com.example.allegro.util.Resource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject

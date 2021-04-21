@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.allegro.api.GithubDataRepository
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
 
 class DetailsViewModel @AssistedInject constructor(
@@ -15,8 +12,10 @@ class DetailsViewModel @AssistedInject constructor(
     @Assisted repositoryName: String
 ) : ViewModel() {
 
+    val contributors = repository.getContributors(repositoryName)
+
     @dagger.assisted.AssistedFactory
-    interface AssistedFactory  {
+    interface AssistedFactory {
         fun create(repositoryName: String): DetailsViewModel
     }
 
@@ -31,8 +30,5 @@ class DetailsViewModel @AssistedInject constructor(
             }
         }
     }
-
-    val contributors = repository.getContributors(repositoryName)
-//    fun getContributors(repositoryName: String) = repository.getContributors(repositoryName)
 
 }

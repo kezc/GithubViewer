@@ -1,28 +1,26 @@
 package com.example.allegro.details
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import com.example.allegro.R
+import com.example.allegro.data.GithubRepository
 import com.example.allegro.databinding.DetailsFragmentBinding
 import com.example.allegro.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormat
 import javax.inject.Inject
-import android.net.Uri
-
-import android.content.Intent
-import androidx.core.view.isVisible
-import com.example.allegro.data.GithubRepository
 
 
 @AndroidEntryPoint

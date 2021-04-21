@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.allegro.R
 import com.example.allegro.databinding.GithubRepositoriesLoadStateFooterBinding
 
 class GithubRepositoriesLoadStateAdapter(private val retry: () -> Unit) :
