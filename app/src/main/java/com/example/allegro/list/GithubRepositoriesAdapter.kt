@@ -2,6 +2,7 @@ package com.example.allegro.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +33,7 @@ class GithubRepositoriesAdapter(private val listener: OnItemClickListener) :
                 if (position != RecyclerView.NO_POSITION) {
                     val repository = getItem(position)
                     if (repository != null) {
-                        listener.onItemClick(repository)
+                        listener.onItemClick(repository, binding)
                     }
                 }
             }
@@ -42,12 +43,13 @@ class GithubRepositoriesAdapter(private val listener: OnItemClickListener) :
             binding.apply {
                 textViewName.text = repository.name
                 textViewStarsCount.text = repository.stargazersCount.toString()
+                ViewCompat.setTransitionName(binding.textViewName, "name_${repository.name}")
             }
         }
     }
 
     fun interface OnItemClickListener {
-        fun onItemClick(repository: GithubRepository)
+        fun onItemClick(repository: GithubRepository, binding: ItemGithubRepositoryBinding)
     }
 
     companion object {

@@ -3,10 +3,12 @@ package com.example.allegro.details
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionInflater
 import com.example.allegro.R
 import com.example.allegro.databinding.DetailsFragmentBinding
 import com.example.allegro.util.Resource
@@ -21,8 +23,13 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
 
     @Inject
     lateinit var detailsViewModelFactory: DetailsViewModel.AssistedFactory
-    val viewModel: DetailsViewModel by viewModels {
+    private val viewModel: DetailsViewModel by viewModels {
         DetailsViewModel.provideFactory(detailsViewModelFactory, args.repository.name)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,6 +38,8 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
         val binding = DetailsFragmentBinding.bind(view)
 
         val repository = args.repository
+
+        ViewCompat.setTransitionName(binding.textViewName, "name_${repository.name}")
 
         val createdAt = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
             .format(repository.createdAt)

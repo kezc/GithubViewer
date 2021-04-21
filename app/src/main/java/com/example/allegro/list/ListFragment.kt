@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,10 +29,19 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
         _binding = FragmentListBinding.bind(view)
 
-        val adapter = GithubRepositoriesAdapter {
-            findNavController().navigate(
-                ListFragmentDirections.toDetailsFragment(it)
+        val adapter = GithubRepositoriesAdapter { repository, binding ->
+            val extras = FragmentNavigatorExtras(
+                binding.textViewName to "name_${repository.name}",
             )
+            findNavController().navigate(
+                ListFragmentDirections.toDetailsFragment(repository), extras
+            )
+        }
+
+        postponeEnterTransition()
+        view.viewTreeObserver.addOnPreDrawListener {
+            startPostponedEnterTransition()
+            true
         }
 
         binding.apply {
