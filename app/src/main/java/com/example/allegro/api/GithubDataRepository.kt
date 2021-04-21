@@ -8,7 +8,6 @@ import androidx.paging.liveData
 import com.example.allegro.data.GithubContributor
 import com.example.allegro.data.GithubRepository
 import com.example.allegro.data.RepositoriesPagingSource
-import com.example.allegro.db.RepositoriesDao
 import com.example.allegro.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,18 +18,12 @@ import javax.inject.Singleton
 
 @Singleton
 class GithubDataRepository @Inject constructor(
-    private val githubService: GithubService,
-    private val dao: RepositoriesDao
+    private val githubService: GithubService
 ) {
     fun getRepositories(sortOption: GithubService.SortOptions) = Pager(
         PagingConfig(20, 40, false),
         pagingSourceFactory = { RepositoriesPagingSource(githubService, sortOption) }
     ).liveData
-
-    private suspend fun saveRepositories(repositories: List<GithubRepository>) =
-        withContext(Dispatchers.IO) {
-            dao.insertRepositories(repositories)
-        }
 
     fun getContributors(repositoryName: String): LiveData<Resource<List<GithubContributor>>> =
         liveData {

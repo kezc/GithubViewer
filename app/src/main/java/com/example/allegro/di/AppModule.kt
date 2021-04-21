@@ -3,8 +3,6 @@ package com.example.allegro.di
 import android.content.Context
 import com.example.allegro.api.GithubDataRepository
 import com.example.allegro.api.GithubService
-import com.example.allegro.db.RepositoriesDao
-import com.example.allegro.db.RepositoriesDatabase
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -35,15 +33,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRepositoriesDatabase(@ApplicationContext appContext: Context): RepositoriesDatabase =
-        RepositoriesDatabase.getDatabase(appContext)
-
-    @Provides
-    @Singleton
-    fun providesRepositoriesDao(database: RepositoriesDatabase): RepositoriesDao = database.repositoriesDao()
-
-    @Provides
-    @Singleton
-    fun providesGithubRepository(githubService: GithubService, dao: RepositoriesDao): GithubDataRepository =
-        GithubDataRepository(githubService, dao)
+    fun providesGithubRepository(githubService: GithubService): GithubDataRepository =
+        GithubDataRepository(githubService)
 }
