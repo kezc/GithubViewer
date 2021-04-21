@@ -3,7 +3,7 @@
     <string name="retry">Retry</string>
     <string name="contributors_could_not_be_loaded">Contributors could not be loaded</string>
     <string name="results_could_not_be_loaded">Results could not be loaded</string>
-    <string name="most_contributions">Most contributions:</string>
+    <string name="most_contributors">Recent contributors:</string>
     <plurals name="contributions">
         <item quantity="one">%d contribution</item>
         <item quantity="other">%d contributions</item>

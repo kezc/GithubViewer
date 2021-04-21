@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.allegro.details.DetailsFragment"
-        android:label="details_fragment"
+        android:label="Repository details"
         tools:layout="@layout/details_fragment">
         <argument
             android:name="repository"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.allegro.list.ListFragment"
-        android:label="fragment_list"
+        android:label="Repositories"
         tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/to_detailsFragment"
@@ -25,6 +25,6 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"  />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

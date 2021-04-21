@@ -29,7 +29,7 @@ interface GithubService {
     suspend fun searchRepositoryContributors(
         @Path(value = "repository_name", encoded = true) repositoryName: String,
         @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 5,
+        @Query("per_page") perPage: Int = 10,
         @Query("sort") sort: String = SortOptions.PUSHED.value,
     ): Response<List<GithubContributor>>
 
