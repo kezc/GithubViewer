@@ -9,14 +9,18 @@
         android:id="@+id/detailsFragment"
         android:name="com.example.allegro.details.DetailsFragment"
         android:label="details_fragment"
-        tools:layout="@layout/details_fragment" />
+        tools:layout="@layout/details_fragment" >
+        <argument
+            android:name="repository"
+            app:argType="com.example.allegro.data.GithubRepository" />
+    </fragment>
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.allegro.list.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action
-            android:id="@+id/action_listFragment_to_detailsFragment"
+            android:id="@+id/to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
 </navigation>

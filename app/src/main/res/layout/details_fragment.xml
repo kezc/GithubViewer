@@ -102,23 +102,46 @@
         tools:text="Updated at 10:08 21.04.2021" />
 
     <TextView
-        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         android:id="@+id/text_view_most_contributors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:text="@string/most_contributions"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_updated_at"
-        android:text="@string/most_contributions" />
+        app:layout_constraintTop_toBottomOf="@id/text_view_updated_at" />
+
+    <TextView
+        android:id="@+id/text_view_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/results_could_not_be_loaded"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_updated_at" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_contributors"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_most_contributors"
         tools:itemCount="5"
         tools:listitem="@layout/item_github_contributor" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

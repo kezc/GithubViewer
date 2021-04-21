@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">Allegro</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="retry">Retry</string>
+    <string name="contributors_could_not_be_loaded">Contributors could not be loaded</string>
     <string name="results_could_not_be_loaded">Results could not be loaded</string>
     <string name="most_contributions">Most contributions:</string>
+    <plurals name="contributions">
+        <item quantity="one">%d contribution</item>
+        <item quantity="other">%d contributions</item>
+    </plurals>
+    <string name="updated_at">Updated at %s</string>
+    <string name="created_at">Created at %s</string>
+    <string name="contributor_avatar">Contributor avatar</string>
 </resources>

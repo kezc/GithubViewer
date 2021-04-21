@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allegro.R
@@ -28,7 +29,9 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         _binding = FragmentListBinding.bind(view)
 
         val adapter = GithubRepositoriesAdapter {
-            // TODO: navigation
+            findNavController().navigate(
+                ListFragmentDirections.toDetailsFragment(it)
+            )
         }
 
         binding.apply {

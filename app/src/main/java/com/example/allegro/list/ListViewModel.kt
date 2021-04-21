@@ -1,6 +1,8 @@
 package com.example.allegro.list
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.example.allegro.api.GithubDataRepository
 import com.example.allegro.api.GithubService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +18,8 @@ class ListViewModel @Inject constructor(
 //        githubApi.searchRepositories().results.filter { it.name.startsWith(queryString) }
 //    }
 
-    val repositories = repository.getRepositories(GithubService.SortOptions.FULL_NAME)
+    val repositories =
+        repository.getRepositories(GithubService.SortOptions.FULL_NAME).cachedIn(viewModelScope)
 
     companion object {
         private const val DEFAULT_QUERY = ""
