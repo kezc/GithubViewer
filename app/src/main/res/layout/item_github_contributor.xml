@@ -6,23 +6,33 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp">
 
-    <TextView
-        android:id="@+id/text_view_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Material.Title"
+    <ImageView
+        android:id="@+id/image_view_avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/github_avatar_placeholder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Sample name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_view_stars_count"
+        android:id="@+id/text_view_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        app:drawableEndCompat="@drawable/ic_baseline_star_24"
+        android:layout_margin="8dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_view_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="kezc" />
+
+    <TextView
+        android:id="@+id/text_view_contributions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="256" />
+        tools:text="Contributions: 5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

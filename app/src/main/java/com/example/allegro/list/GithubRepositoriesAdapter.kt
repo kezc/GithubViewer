@@ -40,8 +40,8 @@ class GithubRepositoriesAdapter(private val listener: OnItemClickListener) :
 
         fun bind(repository: GithubRepository) {
             binding.apply {
-                name.text = repository.name
-                starsCount.text = repository.stargazers_count.toString()
+                textViewName.text = repository.name
+                textViewStarsCount.text = repository.stargazersCount.toString()
             }
         }
     }
