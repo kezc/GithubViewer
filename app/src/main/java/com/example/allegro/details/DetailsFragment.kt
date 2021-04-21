@@ -2,6 +2,9 @@ package com.example.allegro.details
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -15,11 +18,19 @@ import com.example.allegro.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormat
 import javax.inject.Inject
+import android.net.Uri
+
+import android.content.Intent
+import androidx.core.view.isVisible
+import com.example.allegro.data.GithubRepository
 
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.details_fragment) {
     private val args: DetailsFragmentArgs by navArgs()
+
+    private var _binding: DetailsFragmentBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var detailsViewModelFactory: DetailsViewModel.AssistedFactory
@@ -29,29 +40,49 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = DetailsFragmentBinding.bind(view)
+        _binding = DetailsFragmentBinding.bind(view)
 
         val repository = args.repository
 
         ViewCompat.setTransitionName(binding.textViewName, "name_${repository.name}")
+        bindRepository(repository)
 
+        val adapter = GithubContributorsAdapter()
+        binding.apply {
+            recyclerViewContributors.layoutManager = LinearLayoutManager(context)
+            recyclerViewContributors.adapter = adapter
+
+            viewModel.contributors.observe(viewLifecycleOwner) { resource ->
+                progressBar.isVisible = resource is Resource.Loading
+                textViewError.isVisible = resource is Error
+                textViewMostContributors.isVisible = resource is Resource.Success
+
+                if (resource is Resource.Success) {
+                    adapter.submitList(resource.data)
+                }
+                if (resource is Resource.Error) {
+                    textViewError.text = getString(R.string.contributors_could_not_be_loaded)
+                }
+            }
+
+            setHasOptionsMenu(true)
+        }
+    }
+
+    private fun bindRepository(repository: GithubRepository) {
         val createdAt = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
             .format(repository.createdAt)
         val updatedAt = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
             .format(repository.updatedAt)
 
-        val adapter = GithubContributorsAdapter()
-
         binding.apply {
-            recyclerViewContributors.layoutManager = LinearLayoutManager(context)
-            recyclerViewContributors.adapter = adapter
-
             textViewName.text = repository.name
             textViewDescription.text = repository.description
             textViewStarsCount.text = repository.stargazersCount.toString()
@@ -59,34 +90,22 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
             textViewWatchersCount.text = repository.watchersCount.toString()
             textViewCreatedAt.text = getString(R.string.created_at, createdAt)
             textViewUpdatedAt.text = getString(R.string.updated_at, updatedAt)
-
-
-            viewModel.contributors.observe(viewLifecycleOwner) { resource ->
-                when (resource) {
-                    is Resource.Success -> {
-                        Log.d("DetailsFragment", resource.data.toString())
-                        adapter.submitList(resource.data)
-                        progressBar.visibility = View.INVISIBLE
-                        textViewError.visibility = View.INVISIBLE
-                        textViewMostContributors.visibility = View.VISIBLE
-                    }
-                    is Resource.Loading -> {
-                        Log.d("DetailsFragment", "Loading")
-                        progressBar.visibility = View.VISIBLE
-                        textViewError.visibility = View.INVISIBLE
-                        textViewMostContributors.visibility = View.VISIBLE
-                    }
-                    is Resource.Error -> {
-                        Log.d("DetailsFragment", resource.message.toString())
-                        progressBar.visibility = View.INVISIBLE
-                        textViewMostContributors.visibility = View.INVISIBLE
-                        textViewError.visibility = View.VISIBLE
-                        textViewError.text = getString(
-                            R.string.contributors_could_not_be_loaded
-                        )
-                    }
-                }
-            }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.details_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.open_browser) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(args.repository.htmlUrl)
+            startActivity(intent)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

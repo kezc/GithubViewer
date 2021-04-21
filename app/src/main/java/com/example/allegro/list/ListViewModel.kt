@@ -1,7 +1,6 @@
 package com.example.allegro.list
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.example.allegro.api.GithubDataRepository
 import com.example.allegro.api.GithubService
@@ -10,19 +9,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    repository: GithubDataRepository
+    repository: GithubDataRepository,
+    state: SavedStateHandle,
 ) : ViewModel() {
 
-//    private val currentQuery = state.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
-//    val photos = currentQuery.switchMap { queryString ->
-//        githubApi.searchRepositories().results.filter { it.name.startsWith(queryString) }
-//    }
+    private val _currentQuery = state.getLiveData(CURRENT_QUERY_KEY, DEFAULT_QUERY)
+    val currentQuery: LiveData<GithubService.SortOptions>
+        get() = _currentQuery
 
-    val repositories =
-        repository.getRepositories(GithubService.SortOptions.FULL_NAME).cachedIn(viewModelScope)
+    val repositories = currentQuery.switchMap { sortOption ->
+        repository.getRepositories(sortOption).cachedIn(viewModelScope)
+    }
+
+    fun changeSortOrder(order: GithubService.SortOptions) {
+        _currentQuery.value = order
+    }
 
     companion object {
-        private const val DEFAULT_QUERY = ""
-        private const val CURRENT_QUERY = "current_query"
+        private val DEFAULT_QUERY = GithubService.SortOptions.FULL_NAME
+        private const val CURRENT_QUERY_KEY = "current_query"
     }
 }

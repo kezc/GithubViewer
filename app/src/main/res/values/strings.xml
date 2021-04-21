@@ -11,4 +11,14 @@
     <string name="updated_at">Updated at %s</string>
     <string name="created_at">Created at %s</string>
     <string name="contributor_avatar">Contributor avatar</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="choose_order">Choose order</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string-array name="sort_orders">
+        <item>Full name</item>
+        <item>Created</item>
+        <item>Updated</item>
+        <item>Pushed</item>
+    </string-array>
 </resources>
