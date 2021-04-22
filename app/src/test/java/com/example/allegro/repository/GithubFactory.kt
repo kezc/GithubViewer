@@ -25,7 +25,7 @@ class GithubFactory {
 
     private val contributorCounter = AtomicInteger(0)
     fun createGithubContributor(): GithubContributor {
-        val id = repositoryCounter.incrementAndGet().toLong()
+        val id = contributorCounter.incrementAndGet().toLong()
         return GithubContributor(
             id, "login_$id", "", 20
         )

@@ -5,12 +5,12 @@ import androidx.lifecycle.SavedStateHandle
 import com.example.allegro.MainCoroutineRule
 import com.example.allegro.api.GithubService
 import com.example.allegro.repository.FakeGithubDataRepository
+import com.example.allegro.repository.FakeGithubService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
-
 import org.junit.Test
 
 class ListViewModelTest {
@@ -25,7 +25,7 @@ class ListViewModelTest {
 
     @Before
     fun setUp() {
-        githubDataRepository = FakeGithubDataRepository()
+        githubDataRepository = FakeGithubDataRepository(FakeGithubService())
     }
 
     @Test

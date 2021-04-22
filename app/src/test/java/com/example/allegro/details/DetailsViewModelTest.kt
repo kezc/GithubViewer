@@ -5,6 +5,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.allegro.MainCoroutineRule
 import com.example.allegro.getOrAwaitValue
 import com.example.allegro.repository.FakeGithubDataRepository
+import com.example.allegro.repository.FakeGithubService
+import com.example.allegro.repository.GithubFactory
 import com.example.allegro.util.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.`is`
@@ -22,10 +24,18 @@ class DetailsViewModelTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var githubDataRepository: FakeGithubDataRepository
+    private val githubFactory = GithubFactory()
+    var githubContributors = listOf(
+        githubFactory.createGithubContributor(),
+        githubFactory.createGithubContributor(),
+        githubFactory.createGithubContributor()
+    )
 
     @Before
     fun setUp() {
-        githubDataRepository = FakeGithubDataRepository()
+        val fakeGithubService =
+            FakeGithubService().apply { githubContributors.forEach { addGithubContributors(it) } }
+        githubDataRepository = FakeGithubDataRepository(fakeGithubService)
     }
 
     @Test
