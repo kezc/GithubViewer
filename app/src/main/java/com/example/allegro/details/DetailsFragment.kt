@@ -3,6 +3,7 @@ package com.example.allegro.details
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -61,12 +62,21 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
 
             viewModel.contributors.observe(viewLifecycleOwner) { resource ->
                 progressBar.isVisible = resource is Resource.Loading
-                errorMessage.isVisible = resource is Error
+                errorMessage.isVisible = resource is Resource.Error
                 recentContributors.isVisible = resource is Resource.Success
                 contributors.isVisible = resource is Resource.Success
 
-                if (resource is Resource.Success) {
+                Log.d("DetailsFragment", resource.toString())
+                Log.d("DetailsFragment", resource.data.toString())
+
+                if (resource is Resource.Success && resource.data?.isNotEmpty() == true) {
                     adapter.submitList(resource.data)
+                }
+                if (resource is Resource.Success && (resource.data?.isEmpty() == true || resource.data == null)) {
+                    contributors.isVisible = false
+                    recentContributors.isVisible = false
+                    errorMessage.isVisible = true
+                    errorMessage.text = getString(R.string.no_recent_contributors)
                 }
                 if (resource is Resource.Error) {
                     errorMessage.text = getString(R.string.contributors_could_not_be_loaded)

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Allegro</string>
     <string name="retry">Retry</string>
-    <string name="contributors_could_not_be_loaded">Contributors could not be loaded</string>
+    <string name="contributors_could_not_be_loaded">Contributors could not be loaded 😔</string>
     <string name="results_could_not_be_loaded">Results could not be loaded</string>
     <string name="most_contributors">Recent contributors</string>
     <plurals name="contributions">
@@ -15,6 +15,7 @@
     <string name="choose_order">Choose order</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="no_recent_contributors">There are no recent contributors 😔</string>
     <string-array name="sort_orders">
         <item>Full name</item>
         <item>Created</item>
