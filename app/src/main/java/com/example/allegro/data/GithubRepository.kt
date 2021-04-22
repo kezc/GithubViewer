@@ -1,19 +1,15 @@
 package com.example.allegro.data
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.example.allegro.util.DateParceler
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
 import java.util.*
 
-@Entity(tableName = "repository")
 @Parcelize
 @TypeParceler<Date, DateParceler>
 data class GithubRepository(
-    @PrimaryKey
     val id: Long,
     val name: String,
     val description: String?,

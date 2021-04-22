@@ -18,7 +18,7 @@ class DefaultGithubDataRepository @Inject constructor(
     private val githubService: GithubService
 ) : GithubDataRepository {
     override fun getRepositories(sortingOption: GithubService.SortingOptions) = Pager(
-        PagingConfig(20, 40, false),
+        PagingConfig(NETWORK_PAGE_SIZE, enablePlaceholders = false),
         pagingSourceFactory = { RepositoriesPagingSource(githubService, sortingOption) }
     ).liveData
 
@@ -39,4 +39,8 @@ class DefaultGithubDataRepository @Inject constructor(
                 emit(Resource.Error<List<GithubContributor>>(e.message ?: e.toString()))
             }
         }
+
+    companion object {
+        const val NETWORK_PAGE_SIZE = 50
+    }
 }

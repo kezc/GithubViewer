@@ -3,7 +3,6 @@ package com.example.allegro.details
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -29,7 +28,6 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
     private val args: DetailsFragmentArgs by navArgs()
 
     private var _binding: DetailsFragmentBinding? = null
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
@@ -65,9 +63,6 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
                 errorMessage.isVisible = resource is Resource.Error
                 recentContributors.isVisible = resource is Resource.Success
                 contributors.isVisible = resource is Resource.Success
-
-                Log.d("DetailsFragment", resource.toString())
-                Log.d("DetailsFragment", resource.data.toString())
 
                 if (resource is Resource.Success && resource.data?.isNotEmpty() == true) {
                     adapter.submitList(resource.data)
@@ -118,5 +113,4 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }

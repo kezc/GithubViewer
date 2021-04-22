@@ -39,7 +39,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun `when cant fetch should return error`() {
+    fun `when cant fetch, should return error`() {
         githubDataRepository.shouldReturnError = true
         val viewModel = DetailsViewModel(githubDataRepository, "")
         // before getting data there should be loading
@@ -49,7 +49,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun `when no error fetch should return success`() {
+    fun `when successful fetch, should return success`() {
         val viewModel = DetailsViewModel(githubDataRepository, "")
         // before getting data there should be loading
         assertThat(viewModel.contributors.getOrAwaitValue() is Resource.Loading, `is`(true))
