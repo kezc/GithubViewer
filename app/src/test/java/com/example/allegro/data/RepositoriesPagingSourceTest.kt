@@ -47,7 +47,7 @@ class RepositoriesPagingSourceTest {
                 PagingSource.LoadResult.Page(
                     data = githubRepositories.drop((page - 1) * perPage)
                         .take(perPage),
-                    nextKey = page + 1,
+                    nextKey = page,
                     prevKey = null
                 )
             )
@@ -71,7 +71,7 @@ class RepositoriesPagingSourceTest {
                 PagingSource.LoadResult.Page(
                     data = githubRepositories.drop((page - 1) * perPage)
                         .take(perPage),
-                    nextKey = page + 1,
+                    nextKey = page,
                     prevKey = page - 1
                 )
             )
