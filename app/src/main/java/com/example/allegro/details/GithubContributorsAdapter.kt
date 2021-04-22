@@ -30,18 +30,18 @@ class GithubContributorsAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(contributor: GithubContributor) {
             binding.apply {
-                textViewLogin.text = contributor.login
-                textViewContributions.text = binding.root.context.resources.getQuantityString(
+                login.text = contributor.login
+                contributions.text = binding.root.context.resources.getQuantityString(
                     R.plurals.contributions,
                     contributor.contributions,
                     contributor.contributions
                 )
-                Glide.with(imageViewAvatar)
+                Glide.with(avatar)
                     .load(contributor.avatarUrl)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.github_avatar_placeholder)
                     .apply(RequestOptions.circleCropTransform())
-                    .into(imageViewAvatar)
+                    .into(avatar)
             }
         }
     }

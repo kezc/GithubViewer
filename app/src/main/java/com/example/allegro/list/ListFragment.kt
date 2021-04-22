@@ -23,14 +23,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListFragment : Fragment(R.layout.fragment_list) {
     private val viewModel: ListViewModel by viewModels()
 
+    private var _binding: FragmentListBinding? = null
+
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentListBinding.bind(view)
+        _binding = FragmentListBinding.bind(view)
 
         val adapter = GithubRepositoriesAdapter { repository, itemBinding ->
             val extras = FragmentNavigatorExtras(
-                itemBinding.textViewName to "name_${repository.name}",
+                itemBinding.repositoryName to "name_${repository.name}",
             )
             findNavController().navigate(
                 ListFragmentDirections.toDetailsFragment(repository), extras
@@ -44,14 +49,14 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         }
 
         binding.apply {
-            recyclerView.setHasFixedSize(false)
-            recyclerView.itemAnimator = null
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            repositoriesList.setHasFixedSize(false)
+            repositoriesList.itemAnimator = null
+            repositoriesList.layoutManager = LinearLayoutManager(context)
+            repositoriesList.adapter = adapter.withLoadStateHeaderAndFooter(
                 GithubRepositoriesLoadStateAdapter { adapter.retry() },
                 GithubRepositoriesLoadStateAdapter { adapter.retry() }
             )
-            buttonRetry.setOnClickListener {
+            retryButton.setOnClickListener {
                 adapter.retry()
             }
         }
@@ -59,60 +64,24 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         adapter.addLoadStateListener { loadState ->
             binding.apply {
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-                buttonRetry.isVisible = loadState.source.refresh is LoadState.Error
-                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                repositoriesList.isVisible = loadState.source.refresh is LoadState.NotLoading
+                retryButton.isVisible = loadState.source.refresh is LoadState.Error
+                errorMessage.isVisible = loadState.source.refresh is LoadState.Error
 
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
                     adapter.itemCount < 1
                 ) {
-                    recyclerView.isVisible = false
+                    repositoriesList.isVisible = false
                 }
             }
         }
 
         viewModel.repositories.observe(viewLifecycleOwner) {
-            binding.recyclerView.scrollToPosition(0)
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
 
         setHasOptionsMenu(true)
-    }
-
-    private fun createDialog(): Dialog {
-        return activity?.let {
-            val builder = AlertDialog.Builder(it)
-
-            val currentlySelectedIndex = when (viewModel.currentQuery.value) {
-                GithubService.SortOptions.FULL_NAME -> 0
-                GithubService.SortOptions.CREATED -> 1
-                GithubService.SortOptions.UPDATED -> 2
-                GithubService.SortOptions.PUSHED -> 3
-                else -> 0
-            }
-
-            builder.setTitle(R.string.choose_order)
-                .setSingleChoiceItems(R.array.sort_orders, currentlySelectedIndex, null)
-                .setPositiveButton(R.string.ok) { dialog, _ ->
-                    val selectedPosition = (dialog as AlertDialog).listView.checkedItemPosition
-
-                    val selectedOption = when (selectedPosition) {
-                        0 -> GithubService.SortOptions.FULL_NAME
-                        1 -> GithubService.SortOptions.CREATED
-                        2 -> GithubService.SortOptions.UPDATED
-                        3 -> GithubService.SortOptions.PUSHED
-                        else -> GithubService.SortOptions.FULL_NAME
-                    }
-                    viewModel.changeSortOrder(selectedOption)
-                    dialog.dismiss()
-                }
-                .setNegativeButton(R.string.cancel) { dialog, _ ->
-                    dialog.dismiss()
-                }
-
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -128,4 +97,44 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun createDialog(): Dialog =
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
+
+            val currentlySelectedIndex = getCurrentlySelectedSortingOptionIndex()
+
+            builder.setTitle(R.string.choose_order)
+                .setSingleChoiceItems(R.array.sort_orders, currentlySelectedIndex, null)
+                .setPositiveButton(R.string.ok) { dialog, _ ->
+                    val selectedPosition = (dialog as AlertDialog).listView.checkedItemPosition
+                    val selectedOption = getSortingOptionByIndex(selectedPosition)
+
+                    viewModel.changeSortingOrder(selectedOption)
+                    binding.repositoriesList.scrollToPosition(0)
+                    dialog.dismiss()
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                    dialog.dismiss()
+                }
+
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
+
+    private fun getSortingOptionByIndex(selectedPosition: Int): GithubService.SortingOptions =
+        when (selectedPosition) {
+            0 -> GithubService.SortingOptions.FULL_NAME
+            1 -> GithubService.SortingOptions.CREATED
+            2 -> GithubService.SortingOptions.UPDATED
+            3 -> GithubService.SortingOptions.PUSHED
+            else -> GithubService.SortingOptions.FULL_NAME
+        }
+
+    private fun getCurrentlySelectedSortingOptionIndex(): Int =
+        when (viewModel.currentSortingOption) {
+            GithubService.SortingOptions.FULL_NAME -> 0
+            GithubService.SortingOptions.CREATED -> 1
+            GithubService.SortingOptions.UPDATED -> 2
+            GithubService.SortingOptions.PUSHED -> 3
+            else -> 0
+        }
 }

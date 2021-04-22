@@ -1,5 +1,6 @@
 package com.example.allegro.di
 
+import com.example.allegro.api.DefaultGithubDataRepository
 import com.example.allegro.api.GithubDataRepository
 import com.example.allegro.api.GithubService
 import com.google.gson.GsonBuilder
@@ -32,5 +33,5 @@ object AppModule {
     @Provides
     @Singleton
     fun providesGithubRepository(githubService: GithubService): GithubDataRepository =
-        GithubDataRepository(githubService)
+        DefaultGithubDataRepository(githubService)
 }
