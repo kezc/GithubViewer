@@ -1,6 +1,7 @@
 package com.example.allegro.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.paging.PagingDataAdapter
@@ -43,6 +44,11 @@ class GithubRepositoriesAdapter(private val listener: OnItemClickListener) :
             binding.apply {
                 textViewName.text = repository.name
                 textViewStarsCount.text = repository.stargazersCount.toString()
+                if (repository.description?.isNotEmpty() == true) {
+                    textViewDescription.text = repository.description
+                } else {
+                    textViewDescription.visibility = View.GONE
+                }
                 ViewCompat.setTransitionName(binding.textViewName, "name_${repository.name}")
             }
         }

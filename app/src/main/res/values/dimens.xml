@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="icon_size">24dp</dimen>
+    <dimen name="login_size">24sp</dimen>
+    <dimen name="repository_desc_size">16sp</dimen>
+    <dimen name="repository_title_size">24sp</dimen>
 </resources>

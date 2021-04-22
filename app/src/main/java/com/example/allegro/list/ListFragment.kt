@@ -44,7 +44,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         }
 
         binding.apply {
-            recyclerView.setHasFixedSize(true)
+            recyclerView.setHasFixedSize(false)
             recyclerView.itemAnimator = null
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(

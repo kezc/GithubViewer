@@ -16,7 +16,7 @@ data class GithubRepository(
     @PrimaryKey
     val id: Long,
     val name: String,
-    val description: String,
+    val description: String?,
     @SerializedName("stargazers_count")
     val stargazersCount: Int,
     @SerializedName("forks_count")

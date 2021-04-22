@@ -5,7 +5,7 @@ import com.example.allegro.api.GithubService
 import retrofit2.HttpException
 import java.io.IOException
 
-private const val UNSPLASH_STARTING_PAGE_INDEX = 1
+private const val GITHUB_STARTING_PAGE_INDEX = 1
 
 class RepositoriesPagingSource(
     private val githubService: GithubService,
@@ -13,13 +13,13 @@ class RepositoriesPagingSource(
 ) :
     PagingSource<Int, GithubRepository>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GithubRepository> {
-        val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
+        val position = params.key ?: GITHUB_STARTING_PAGE_INDEX
         return try {
             val repositories =
                 githubService.searchRepositories(position, params.loadSize, sortOption.value)
             LoadResult.Page(
                 repositories,
-                if (position == UNSPLASH_STARTING_PAGE_INDEX) null else position - 1,
+                if (position == GITHUB_STARTING_PAGE_INDEX) null else position - 1,
                 if (repositories.isEmpty()) null else position + 1,
             )
         } catch (exception: IOException) {
