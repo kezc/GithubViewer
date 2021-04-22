@@ -13,7 +13,7 @@ interface GithubService {
 
     companion object {
         const val BASE_URL = "https://api.github.com/"
-        const val API_TOKEN = BuildConfig.GITHUB_TOKEN
+        const val API_TOKEN = BuildConfig.GITHUB_TOKEN // Set it in gradle.properties
     }
 
     @Headers("Authorization: token $API_TOKEN")
