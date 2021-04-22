@@ -56,6 +56,8 @@ dependencies {
 
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 
+    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
 
