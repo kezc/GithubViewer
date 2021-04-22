@@ -1,6 +1,9 @@
 package com.example.allegro.list
 
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.allegro.api.GithubDataRepository
 import com.example.allegro.api.GithubService
@@ -14,14 +17,14 @@ class ListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _currentSortingOption = state.getLiveData(CURRENT_QUERY_KEY, DEFAULT_QUERY)
-    val currentSortingOption: LiveData<GithubService.SortingOptions>
-        get() = _currentSortingOption
+    val currentSortingOption: GithubService.SortingOptions?
+        get() = _currentSortingOption.value
 
-    val repositories = currentSortingOption.switchMap { sortOption ->
+    val repositories = _currentSortingOption.switchMap { sortOption ->
         repository.getRepositories(sortOption).cachedIn(viewModelScope)
     }
 
-    fun changeSortOrder(order: GithubService.SortingOptions) {
+    fun changeSortingOrder(order: GithubService.SortingOptions) {
         _currentSortingOption.value = order
     }
 
