@@ -24,6 +24,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     private val viewModel: ListViewModel by viewModels()
 
     private var _binding: FragmentListBinding? = null
+
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,6 +84,19 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         setHasOptionsMenu(true)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.list_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.sorting_order) {
+            createDialog().show()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun createDialog(): Dialog =
         activity?.let {
             val builder = AlertDialog.Builder(it)
@@ -122,19 +137,4 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             GithubService.SortingOptions.PUSHED -> 3
             else -> 0
         }
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.list_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.sorting_order) {
-            createDialog().show()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
 }

@@ -8,10 +8,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Test
 
 
 class RepositoriesPagingSourceTest {
+    lateinit var pagingSource: PagingSource<Int, GithubRepository>
 
     private val githubFactory = GithubFactory()
     var githubRepositories = listOf(
@@ -20,14 +22,17 @@ class RepositoriesPagingSourceTest {
         githubFactory.createGithubRepository()
     )
 
-    private val fakeGithubService =
-        FakeGithubService().apply { githubRepositories.forEach { addGithubRepositories(it) } }
+    @Before
+    fun setUp() {
+        val fakeGithubService =
+            FakeGithubService().apply { githubRepositories.forEach { addGithubRepositories(it) } }
+        pagingSource =
+            RepositoriesPagingSource(fakeGithubService, GithubService.SortingOptions.FULL_NAME)
+    }
 
     @ExperimentalCoroutinesApi
     @Test
     fun `test first page`() = runBlockingTest {
-        val pagingSource =
-            RepositoriesPagingSource(fakeGithubService, GithubService.SortingOptions.FULL_NAME)
         val page = 1
         val perPage = 2
         assertThat(
@@ -52,8 +57,6 @@ class RepositoriesPagingSourceTest {
     @ExperimentalCoroutinesApi
     @Test
     fun `test middle page`() = runBlockingTest {
-        val pagingSource =
-            RepositoriesPagingSource(fakeGithubService, GithubService.SortingOptions.FULL_NAME)
         val page = 2
         val perPage = 2
         assertThat(
@@ -78,8 +81,6 @@ class RepositoriesPagingSourceTest {
     @ExperimentalCoroutinesApi
     @Test
     fun `test last page`() = runBlockingTest {
-        val pagingSource =
-            RepositoriesPagingSource(fakeGithubService, GithubService.SortingOptions.FULL_NAME)
         val page = 3
         val perPage = 2
         assertThat(

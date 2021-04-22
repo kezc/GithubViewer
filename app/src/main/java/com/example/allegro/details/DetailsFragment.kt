@@ -28,6 +28,8 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
     private val args: DetailsFragmentArgs by navArgs()
 
     private var _binding: DetailsFragmentBinding? = null
+
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     @Inject
