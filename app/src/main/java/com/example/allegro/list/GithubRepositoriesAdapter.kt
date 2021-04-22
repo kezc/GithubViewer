@@ -42,14 +42,14 @@ class GithubRepositoriesAdapter(private val listener: OnItemClickListener) :
 
         fun bind(repository: GithubRepository) {
             binding.apply {
-                textViewName.text = repository.name
-                textViewStarsCount.text = repository.stargazersCount.toString()
+                repositoryName.text = repository.name
+                starsCount.text = repository.stargazersCount.toString()
                 if (repository.description?.isNotEmpty() == true) {
-                    textViewDescription.text = repository.description
+                    description.text = repository.description
                 } else {
-                    textViewDescription.visibility = View.GONE
+                    description.visibility = View.GONE
                 }
-                ViewCompat.setTransitionName(binding.textViewName, "name_${repository.name}")
+                ViewCompat.setTransitionName(binding.repositoryName, "name_${repository.name}")
             }
         }
     }

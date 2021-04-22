@@ -27,7 +27,7 @@ class GithubRepositoriesLoadStateAdapter(private val retry: () -> Unit) :
     inner class LoadStateViewHolder(private val binding: GithubRepositoriesLoadStateFooterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.buttonRetry.setOnClickListener {
+            binding.retryButton.setOnClickListener {
                 retry()
             }
         }
@@ -35,8 +35,8 @@ class GithubRepositoriesLoadStateAdapter(private val retry: () -> Unit) :
         fun bind(loadState: LoadState) {
             binding.apply {
                 progressBar.isVisible = loadState is LoadState.Loading
-                buttonRetry.isVisible = loadState !is LoadState.Loading
-                textViewError.isVisible = loadState !is LoadState.Loading
+                retryButton.isVisible = loadState !is LoadState.Loading
+                errorMessage.isVisible = loadState !is LoadState.Loading
             }
 
         }

@@ -15,7 +15,7 @@
         android:layout_margin="4dp">
 
         <ImageView
-            android:id="@+id/image_view_avatar"
+            android:id="@+id/avatar"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:contentDescription="@string/contributor_avatar"
@@ -24,18 +24,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_view_login"
+            android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:textSize="@dimen/login_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_view_avatar"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="kezc" />
 
         <TextView
-            android:id="@+id/text_view_contributions"
+            android:id="@+id/contributions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

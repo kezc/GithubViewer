@@ -35,7 +35,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
         val adapter = GithubRepositoriesAdapter { repository, itemBinding ->
             val extras = FragmentNavigatorExtras(
-                itemBinding.textViewName to "name_${repository.name}",
+                itemBinding.repositoryName to "name_${repository.name}",
             )
             findNavController().navigate(
                 ListFragmentDirections.toDetailsFragment(repository), extras
@@ -49,14 +49,14 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         }
 
         binding.apply {
-            recyclerView.setHasFixedSize(false)
-            recyclerView.itemAnimator = null
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            repositoriesList.setHasFixedSize(false)
+            repositoriesList.itemAnimator = null
+            repositoriesList.layoutManager = LinearLayoutManager(context)
+            repositoriesList.adapter = adapter.withLoadStateHeaderAndFooter(
                 GithubRepositoriesLoadStateAdapter { adapter.retry() },
                 GithubRepositoriesLoadStateAdapter { adapter.retry() }
             )
-            buttonRetry.setOnClickListener {
+            retryButton.setOnClickListener {
                 adapter.retry()
             }
         }
@@ -64,15 +64,15 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         adapter.addLoadStateListener { loadState ->
             binding.apply {
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-                buttonRetry.isVisible = loadState.source.refresh is LoadState.Error
-                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                repositoriesList.isVisible = loadState.source.refresh is LoadState.NotLoading
+                retryButton.isVisible = loadState.source.refresh is LoadState.Error
+                errorMessage.isVisible = loadState.source.refresh is LoadState.Error
 
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
                     adapter.itemCount < 1
                 ) {
-                    recyclerView.isVisible = false
+                    repositoriesList.isVisible = false
                 }
             }
         }
@@ -110,7 +110,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                     val selectedOption = getSortingOptionByIndex(selectedPosition)
 
                     viewModel.changeSortingOrder(selectedOption)
-                    binding.recyclerView.scrollToPosition(0)
+                    binding.repositoriesList.scrollToPosition(0)
                     dialog.dismiss()
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->

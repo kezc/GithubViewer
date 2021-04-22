@@ -51,25 +51,25 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
 
         val repository = args.repository
 
-        ViewCompat.setTransitionName(binding.textViewName, "name_${repository.name}")
+        ViewCompat.setTransitionName(binding.repositoryName, "name_${repository.name}")
         bindRepository(repository)
 
         val adapter = GithubContributorsAdapter()
         binding.apply {
-            recyclerViewContributors.layoutManager = LinearLayoutManager(context)
-            recyclerViewContributors.adapter = adapter
+            contributors.layoutManager = LinearLayoutManager(context)
+            contributors.adapter = adapter
 
             viewModel.contributors.observe(viewLifecycleOwner) { resource ->
                 progressBar.isVisible = resource is Resource.Loading
-                textViewError.isVisible = resource is Error
-                textViewMostContributors.isVisible = resource is Resource.Success
-                recyclerViewContributors.isVisible = resource is Resource.Success
+                errorMessage.isVisible = resource is Error
+                recentContributors.isVisible = resource is Resource.Success
+                contributors.isVisible = resource is Resource.Success
 
                 if (resource is Resource.Success) {
                     adapter.submitList(resource.data)
                 }
                 if (resource is Resource.Error) {
-                    textViewError.text = getString(R.string.contributors_could_not_be_loaded)
+                    errorMessage.text = getString(R.string.contributors_could_not_be_loaded)
                 }
             }
 
@@ -78,19 +78,19 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
     }
 
     private fun bindRepository(repository: GithubRepository) {
-        val createdAt = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
+        val createdAtText = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
             .format(repository.createdAt)
-        val updatedAt = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
+        val updatedAtText = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
             .format(repository.updatedAt)
 
         binding.apply {
-            textViewName.text = repository.name
-            textViewDescription.text = repository.description
-            textViewStarsCount.text = repository.stargazersCount.toString()
-            textViewForksCount.text = repository.forksCount.toString()
-            textViewWatchersCount.text = repository.watchersCount.toString()
-            textViewCreatedAt.text = getString(R.string.created_at, createdAt)
-            textViewUpdatedAt.text = getString(R.string.updated_at, updatedAt)
+            repositoryName.text = repository.name
+            description.text = repository.description
+            starsCount.text = repository.stargazersCount.toString()
+            forksCount.text = repository.forksCount.toString()
+            watchersCount.text = repository.watchersCount.toString()
+            createdAt.text = getString(R.string.created_at, createdAtText)
+            updatedAt.text = getString(R.string.updated_at, updatedAtText)
         }
     }
 
