@@ -13,20 +13,20 @@ class ListViewModel @Inject constructor(
     state: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _currentQuery = state.getLiveData(CURRENT_QUERY_KEY, DEFAULT_QUERY)
-    val currentQuery: LiveData<GithubService.SortOptions>
-        get() = _currentQuery
+    private val _currentSortingOption = state.getLiveData(CURRENT_QUERY_KEY, DEFAULT_QUERY)
+    val currentSortingOption: LiveData<GithubService.SortingOptions>
+        get() = _currentSortingOption
 
-    val repositories = currentQuery.switchMap { sortOption ->
+    val repositories = currentSortingOption.switchMap { sortOption ->
         repository.getRepositories(sortOption).cachedIn(viewModelScope)
     }
 
-    fun changeSortOrder(order: GithubService.SortOptions) {
-        _currentQuery.value = order
+    fun changeSortOrder(order: GithubService.SortingOptions) {
+        _currentSortingOption.value = order
     }
 
     companion object {
-        private val DEFAULT_QUERY = GithubService.SortOptions.FULL_NAME
+        private val DEFAULT_QUERY = GithubService.SortingOptions.FULL_NAME
         private const val CURRENT_QUERY_KEY = "current_query"
     }
 }

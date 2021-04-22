@@ -17,9 +17,9 @@ import javax.inject.Singleton
 class DefaultGithubDataRepository @Inject constructor(
     private val githubService: GithubService
 ) : GithubDataRepository {
-    override fun getRepositories(sortOption: GithubService.SortOptions) = Pager(
+    override fun getRepositories(sortingOption: GithubService.SortingOptions) = Pager(
         PagingConfig(20, 40, false),
-        pagingSourceFactory = { RepositoriesPagingSource(githubService, sortOption) }
+        pagingSourceFactory = { RepositoriesPagingSource(githubService, sortingOption) }
     ).liveData
 
     override fun getContributors(repositoryName: String): LiveData<Resource<List<GithubContributor>>> =

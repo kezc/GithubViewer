@@ -22,7 +22,7 @@ class FakeGithubDataRepository : GithubDataRepository {
 
     private val observablePagingRepositories = MutableLiveData<PagingData<GithubRepository>>()
 
-    override fun getRepositories(sortOption: GithubService.SortOptions): LiveData<PagingData<GithubRepository>> {
+    override fun getRepositories(sortingOption: GithubService.SortingOptions): LiveData<PagingData<GithubRepository>> {
         return observablePagingRepositories
     }
 

@@ -7,6 +7,6 @@ import com.example.allegro.data.GithubRepository
 import com.example.allegro.util.Resource
 
 interface GithubDataRepository {
-    fun getRepositories(sortOption: GithubService.SortOptions): LiveData<PagingData<GithubRepository>>
+    fun getRepositories(sortingOption: GithubService.SortingOptions): LiveData<PagingData<GithubRepository>>
     fun getContributors(repositoryName: String): LiveData<Resource<List<GithubContributor>>>
 }

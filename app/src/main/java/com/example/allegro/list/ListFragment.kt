@@ -23,10 +23,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListFragment : Fragment(R.layout.fragment_list) {
     private val viewModel: ListViewModel by viewModels()
 
+    private var _binding: FragmentListBinding? = null
+    private val binding get() = _binding!!
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentListBinding.bind(view)
+        _binding = FragmentListBinding.bind(view)
 
         val adapter = GithubRepositoriesAdapter { repository, itemBinding ->
             val extras = FragmentNavigatorExtras(
@@ -73,38 +76,26 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         }
 
         viewModel.repositories.observe(viewLifecycleOwner) {
-            binding.recyclerView.scrollToPosition(0)
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
 
         setHasOptionsMenu(true)
     }
 
-    private fun createDialog(): Dialog {
-        return activity?.let {
+    private fun createDialog(): Dialog =
+        activity?.let {
             val builder = AlertDialog.Builder(it)
 
-            val currentlySelectedIndex = when (viewModel.currentQuery.value) {
-                GithubService.SortOptions.FULL_NAME -> 0
-                GithubService.SortOptions.CREATED -> 1
-                GithubService.SortOptions.UPDATED -> 2
-                GithubService.SortOptions.PUSHED -> 3
-                else -> 0
-            }
+            val currentlySelectedIndex = getCurrentlySelectedSortingOptionIndex()
 
             builder.setTitle(R.string.choose_order)
                 .setSingleChoiceItems(R.array.sort_orders, currentlySelectedIndex, null)
                 .setPositiveButton(R.string.ok) { dialog, _ ->
                     val selectedPosition = (dialog as AlertDialog).listView.checkedItemPosition
+                    val selectedOption = getSortingOptionByIndex(selectedPosition)
 
-                    val selectedOption = when (selectedPosition) {
-                        0 -> GithubService.SortOptions.FULL_NAME
-                        1 -> GithubService.SortOptions.CREATED
-                        2 -> GithubService.SortOptions.UPDATED
-                        3 -> GithubService.SortOptions.PUSHED
-                        else -> GithubService.SortOptions.FULL_NAME
-                    }
                     viewModel.changeSortOrder(selectedOption)
+                    binding.recyclerView.scrollToPosition(0)
                     dialog.dismiss()
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -113,7 +104,25 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
-    }
+
+    private fun getSortingOptionByIndex(selectedPosition: Int): GithubService.SortingOptions =
+        when (selectedPosition) {
+            0 -> GithubService.SortingOptions.FULL_NAME
+            1 -> GithubService.SortingOptions.CREATED
+            2 -> GithubService.SortingOptions.UPDATED
+            3 -> GithubService.SortingOptions.PUSHED
+            else -> GithubService.SortingOptions.FULL_NAME
+        }
+
+    private fun getCurrentlySelectedSortingOptionIndex(): Int =
+        when (viewModel.currentSortingOption.value) {
+            GithubService.SortingOptions.FULL_NAME -> 0
+            GithubService.SortingOptions.CREATED -> 1
+            GithubService.SortingOptions.UPDATED -> 2
+            GithubService.SortingOptions.PUSHED -> 3
+            else -> 0
+        }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

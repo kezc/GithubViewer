@@ -30,10 +30,10 @@ interface GithubService {
         @Path(value = "repository_name", encoded = true) repositoryName: String,
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 10,
-        @Query("sort") sort: String = SortOptions.PUSHED.value,
+        @Query("sort") sort: String = SortingOptions.PUSHED.value,
     ): Response<List<GithubContributor>>
 
-    enum class SortOptions(val value: String) {
+    enum class SortingOptions(val value: String) {
         CREATED("created"),
         UPDATED("updated"),
         PUSHED("pushed"),

@@ -61,6 +61,7 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
                 progressBar.isVisible = resource is Resource.Loading
                 textViewError.isVisible = resource is Error
                 textViewMostContributors.isVisible = resource is Resource.Success
+                recyclerViewContributors.isVisible = resource is Resource.Success
 
                 if (resource is Resource.Success) {
                     adapter.submitList(resource.data)
