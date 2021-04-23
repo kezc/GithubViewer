@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
     private val args: DetailsFragmentArgs by navArgs()
 
     private var _binding: DetailsFragmentBinding? = null
+
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
@@ -90,7 +92,8 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
 
         binding.apply {
             repositoryName.text = repository.name
-            description.text = repository.description
+            description.setTextOrHideIfNull(repository.description)
+            language.setTextOrHideIfNull(repository.language)
             starsCount.text = repository.stargazersCount.toString()
             forksCount.text = repository.forksCount.toString()
             watchersCount.text = repository.watchersCount.toString()
@@ -112,5 +115,13 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun TextView.setTextOrHideIfNull(text: String?) {
+        if (!text.isNullOrBlank()) {
+            this.text = text
+        } else {
+            this.visibility = View.GONE
+        }
     }
 }

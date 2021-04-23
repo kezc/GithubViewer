@@ -19,7 +19,7 @@ data class GithubRepository(
     val forksCount: Int,
     @SerializedName("watchers_count")
     val watchersCount: Int,
-    val language: String,
+    val language: String?,
     @SerializedName("html_url")
     val htmlUrl: String,
     @SerializedName("created_at")

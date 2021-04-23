@@ -42,7 +42,8 @@ class GithubRepositoriesAdapter(private val listener: OnItemClickListener) :
             binding.apply {
                 repositoryName.text = repository.name
                 starsCount.text = repository.stargazersCount.toString()
-                if (repository.description?.isNotEmpty() == true) {
+                if (!repository.description.isNullOrBlank()) {
+                    description.visibility = View.VISIBLE
                     description.text = repository.description
                 } else {
                     description.visibility = View.GONE
