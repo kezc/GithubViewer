@@ -24,7 +24,6 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     private val viewModel: ListViewModel by viewModels()
 
     private var _binding: FragmentListBinding? = null
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
@@ -109,8 +108,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                     val selectedPosition = (dialog as AlertDialog).listView.checkedItemPosition
                     val selectedOption = getSortingOptionByIndex(selectedPosition)
 
-                    viewModel.changeSortingOrder(selectedOption)
-                    binding.repositoriesList.scrollToPosition(0)
+                    if (selectedOption == viewModel.currentSortingOption) {
+                        viewModel.changeSortingOrder(selectedOption)
+                        binding.repositoriesList.scrollToPosition(0)
+                    }
+
                     dialog.dismiss()
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->

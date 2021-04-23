@@ -15,8 +15,10 @@ class ListViewModel @Inject constructor(
     repository: GithubDataRepository,
     state: SavedStateHandle,
 ) : ViewModel() {
-
-    private val _currentSortingOption = state.getLiveData(CURRENT_QUERY_KEY, DEFAULT_QUERY)
+    // Saving sorting option allows to correctly return to fragment
+    // after process death
+    private val _currentSortingOption =
+        state.getLiveData(CURRENT_SORTING_OPTION_KEY, DEFAULT_QUERY)
     val currentSortingOption: GithubService.SortingOptions?
         get() = _currentSortingOption.value
 
@@ -30,6 +32,6 @@ class ListViewModel @Inject constructor(
 
     companion object {
         private val DEFAULT_QUERY = GithubService.SortingOptions.FULL_NAME
-        private const val CURRENT_QUERY_KEY = "current_query"
+        private const val CURRENT_SORTING_OPTION_KEY = "current_sorting"
     }
 }

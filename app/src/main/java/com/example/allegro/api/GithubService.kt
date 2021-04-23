@@ -10,12 +10,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GithubService {
-
-    companion object {
-        const val BASE_URL = "https://api.github.com/"
-        const val API_TOKEN = BuildConfig.GITHUB_TOKEN // Set it in gradle.properties
-    }
-
     @Headers("Authorization: token $API_TOKEN")
     @GET("orgs/allegro/repos")
     suspend fun searchRepositories(
@@ -32,6 +26,11 @@ interface GithubService {
         @Query("per_page") perPage: Int = 10,
         @Query("sort") sort: String = SortingOptions.PUSHED.value,
     ): Response<List<GithubContributor>>
+
+    companion object {
+        const val BASE_URL = "https://api.github.com/"
+        const val API_TOKEN = BuildConfig.GITHUB_TOKEN // Set it in gradle.properties
+    }
 
     enum class SortingOptions(val value: String) {
         CREATED("created"),

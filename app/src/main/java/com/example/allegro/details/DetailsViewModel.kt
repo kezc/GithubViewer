@@ -11,7 +11,6 @@ class DetailsViewModel @AssistedInject constructor(
     repository: GithubDataRepository,
     @Assisted repositoryName: String
 ) : ViewModel() {
-
     val contributors = repository.getContributors(repositoryName)
 
     @dagger.assisted.AssistedFactory

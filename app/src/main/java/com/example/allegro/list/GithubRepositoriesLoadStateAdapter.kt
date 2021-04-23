@@ -38,7 +38,6 @@ class GithubRepositoriesLoadStateAdapter(private val retry: () -> Unit) :
                 retryButton.isVisible = loadState !is LoadState.Loading
                 errorMessage.isVisible = loadState !is LoadState.Loading
             }
-
         }
     }
 }

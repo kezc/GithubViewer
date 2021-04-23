@@ -11,13 +11,11 @@ import com.example.allegro.data.GithubRepository
 import com.example.allegro.databinding.ItemGithubRepositoryBinding
 
 class GithubRepositoriesAdapter(private val listener: OnItemClickListener) :
-    PagingDataAdapter<GithubRepository, GithubRepositoriesAdapter.ViewHolder>(
-        repositoriesComparator
-    ) {
-
+    PagingDataAdapter<GithubRepository, GithubRepositoriesAdapter.ViewHolder>(repositoriesComparator) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemGithubRepositoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemGithubRepositoryBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return ViewHolder(binding)
     }
 
