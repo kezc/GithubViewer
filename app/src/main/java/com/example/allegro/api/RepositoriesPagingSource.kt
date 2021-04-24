@@ -11,8 +11,7 @@ private const val GITHUB_STARTING_PAGE_INDEX = 1
 class RepositoriesPagingSource(
     private val githubService: GithubService,
     private val sortingOption: GithubService.SortingOptions
-) :
-    PagingSource<Int, GithubRepository>() {
+) : PagingSource<Int, GithubRepository>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GithubRepository> {
         val position = params.key ?: GITHUB_STARTING_PAGE_INDEX
         return try {
