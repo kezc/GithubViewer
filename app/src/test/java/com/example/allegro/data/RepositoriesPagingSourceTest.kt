@@ -2,6 +2,7 @@ package com.example.allegro.data
 
 import androidx.paging.PagingSource
 import com.example.allegro.api.GithubService
+import com.example.allegro.api.RepositoriesPagingSource
 import com.example.allegro.repository.FakeGithubService
 import com.example.allegro.repository.GithubFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi

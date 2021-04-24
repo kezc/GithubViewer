@@ -25,7 +25,7 @@ class DetailsViewModelTest {
 
     private lateinit var githubDataRepository: FakeGithubDataRepository
     private val githubFactory = GithubFactory()
-    var githubContributors = listOf(
+    private val githubContributors = listOf(
         githubFactory.createGithubContributor(),
         githubFactory.createGithubContributor(),
         githubFactory.createGithubContributor()
