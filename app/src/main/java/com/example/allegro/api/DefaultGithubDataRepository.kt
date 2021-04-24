@@ -8,8 +8,6 @@ import androidx.paging.liveData
 import com.example.allegro.data.GithubContributor
 import com.example.allegro.data.RepositoriesPagingSource
 import com.example.allegro.util.Resource
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,9 +31,7 @@ class DefaultGithubDataRepository @Inject constructor(
                 } else {
                     emit(Resource.Error<List<GithubContributor>>("Could not get contributors"))
                 }
-            } catch (e: IOException) {
-                emit(Resource.Error<List<GithubContributor>>(e.message ?: e.toString()))
-            } catch (e: HttpException) {
+            } catch (e: Exception) {
                 emit(Resource.Error<List<GithubContributor>>(e.message ?: e.toString()))
             }
         }
