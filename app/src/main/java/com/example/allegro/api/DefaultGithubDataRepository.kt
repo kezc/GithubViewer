@@ -6,7 +6,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.example.allegro.data.GithubContributor
-import com.example.allegro.data.RepositoriesPagingSource
 import com.example.allegro.util.Resource
 import javax.inject.Inject
 import javax.inject.Singleton

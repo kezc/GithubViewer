@@ -3,6 +3,7 @@ package com.example.allegro.di
 import com.example.allegro.api.DefaultGithubDataRepository
 import com.example.allegro.api.GithubDataRepository
 import com.example.allegro.api.GithubService
+import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -18,7 +19,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
-        val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create()
+        val gson = GsonBuilder()
+             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+             .create()
         return Retrofit.Builder()
             .baseUrl(GithubService.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))

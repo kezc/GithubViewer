@@ -108,7 +108,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                     val selectedPosition = (dialog as AlertDialog).listView.checkedItemPosition
                     val selectedOption = getSortingOptionByIndex(selectedPosition)
 
-                    if (selectedOption != viewModel.currentSortingOption) {
+                    if (selectedOption != viewModel.getSortingOrder()) {
                         viewModel.changeSortingOrder(selectedOption)
                         binding.repositoriesList.scrollToPosition(0)
                     }
@@ -132,7 +132,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         }
 
     private fun getCurrentlySelectedSortingOptionIndex(): Int =
-        when (viewModel.currentSortingOption) {
+        when (viewModel.getSortingOrder()) {
             GithubService.SortingOptions.FULL_NAME -> 0
             GithubService.SortingOptions.CREATED -> 1
             GithubService.SortingOptions.UPDATED -> 2

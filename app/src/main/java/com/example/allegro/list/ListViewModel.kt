@@ -17,17 +17,19 @@ class ListViewModel @Inject constructor(
 ) : ViewModel() {
     // Saving sorting option allows to correctly return to fragment
     // after process death
-    private val _currentSortingOption =
+    private val currentSortingOption =
         state.getLiveData(CURRENT_SORTING_OPTION_KEY, DEFAULT_QUERY)
-    val currentSortingOption: GithubService.SortingOptions?
-        get() = _currentSortingOption.value
 
-    val repositories = _currentSortingOption.switchMap { sortOption ->
+    val repositories = currentSortingOption.switchMap { sortOption ->
         repository.getRepositories(sortOption).cachedIn(viewModelScope)
     }
 
     fun changeSortingOrder(order: GithubService.SortingOptions) {
-        _currentSortingOption.value = order
+        currentSortingOption.value = order
+    }
+
+    fun getSortingOrder(): GithubService.SortingOptions? {
+        return currentSortingOption.value
     }
 
     companion object {
