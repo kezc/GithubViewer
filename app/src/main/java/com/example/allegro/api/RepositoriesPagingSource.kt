@@ -1,9 +1,8 @@
-package com.example.allegro.data
+package com.example.allegro.api
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.allegro.api.DefaultGithubDataRepository
-import com.example.allegro.api.GithubService
+import com.example.allegro.data.GithubRepository
 import retrofit2.HttpException
 import java.io.IOException
 
