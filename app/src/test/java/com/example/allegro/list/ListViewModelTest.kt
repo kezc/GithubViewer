@@ -33,15 +33,15 @@ class ListViewModelTest {
         val viewModel = ListViewModel(githubDataRepository, SavedStateHandle())
 
         viewModel.changeSortingOrder(GithubService.SortingOptions.CREATED)
-        assertThat(viewModel.currentSortingOption, `is`(GithubService.SortingOptions.CREATED))
+        assertThat(viewModel.getSortingOrder(), `is`(GithubService.SortingOptions.CREATED))
 
         viewModel.changeSortingOrder(GithubService.SortingOptions.FULL_NAME)
-        assertThat(viewModel.currentSortingOption, `is`(GithubService.SortingOptions.FULL_NAME))
+        assertThat(viewModel.getSortingOrder(), `is`(GithubService.SortingOptions.FULL_NAME))
 
         viewModel.changeSortingOrder(GithubService.SortingOptions.PUSHED)
-        assertThat(viewModel.currentSortingOption, `is`(GithubService.SortingOptions.PUSHED))
+        assertThat(viewModel.getSortingOrder(), `is`(GithubService.SortingOptions.PUSHED))
 
         viewModel.changeSortingOrder(GithubService.SortingOptions.UPDATED)
-        assertThat(viewModel.currentSortingOption, `is`(GithubService.SortingOptions.UPDATED))
+        assertThat(viewModel.getSortingOrder(), `is`(GithubService.SortingOptions.UPDATED))
     }
 }

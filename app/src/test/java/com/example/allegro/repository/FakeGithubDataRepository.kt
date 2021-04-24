@@ -8,9 +8,9 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.example.allegro.api.GithubDataRepository
 import com.example.allegro.api.GithubService
+import com.example.allegro.api.RepositoriesPagingSource
 import com.example.allegro.data.GithubContributor
 import com.example.allegro.data.GithubRepository
-import com.example.allegro.data.RepositoriesPagingSource
 import com.example.allegro.util.Resource
 
 class FakeGithubDataRepository(private val githubService: GithubService) : GithubDataRepository {
