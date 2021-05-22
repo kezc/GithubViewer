@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Allegro</string>
+    <string name="app_name">GithubViewer</string>
     <string name="retry">Retry</string>
     <string name="contributors_could_not_be_loaded">Contributors could not be loaded 😔</string>
     <string name="results_could_not_be_loaded">Results could not be loaded</string>
