@@ -73,6 +73,9 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                     adapter.itemCount < 1
                 ) {
                     repositoriesList.isVisible = false
+                    noRepositoriesFoundMessage.isVisible = true
+                } else {
+                    noRepositoriesFoundMessage.isVisible = false
                 }
             }
         }
