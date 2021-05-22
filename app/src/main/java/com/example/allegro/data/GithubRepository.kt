@@ -19,4 +19,12 @@ data class GithubRepository(
     val htmlUrl: String,
     val createdAt: Date,
     val updatedAt: Date,
-) : Parcelable
+    val owner: Owner,
+) : Parcelable {
+    @Parcelize
+    data class Owner(
+        val id: Long,
+        val login: String,
+        val avatarUrl: String,
+    ) : Parcelable
+}

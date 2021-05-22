@@ -36,7 +36,7 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
     @Inject
     lateinit var detailsViewModelFactory: DetailsViewModel.AssistedFactory
     private val viewModel: DetailsViewModel by viewModels {
-        DetailsViewModel.provideFactory(detailsViewModelFactory, args.repository.name)
+        DetailsViewModel.provideFactory(detailsViewModelFactory, args.repository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

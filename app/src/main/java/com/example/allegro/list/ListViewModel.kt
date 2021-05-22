@@ -18,10 +18,15 @@ class ListViewModel @Inject constructor(
     // Saving sorting option allows to correctly return to fragment
     // after process death
     private val currentSortingOption =
-        state.getLiveData(CURRENT_SORTING_OPTION_KEY, DEFAULT_QUERY)
+        state.getLiveData(CURRENT_SORTING_OPTION_KEY, DEFAULT_SEARCH_OPTION)
+
+    private val currentQuery =
+        state.getLiveData(CURRENT_QUERY_KEY, DEFAULT_QUERY)
 
     val repositories = currentSortingOption.switchMap { sortOption ->
-        repository.getRepositories(sortOption).cachedIn(viewModelScope)
+        currentQuery.switchMap { query ->
+            repository.getRepositories(query, sortOption).cachedIn(viewModelScope)
+        }
     }
 
     fun changeSortingOrder(order: GithubService.SortingOptions) {
@@ -32,8 +37,14 @@ class ListViewModel @Inject constructor(
         return currentSortingOption.value
     }
 
+    fun searchUser(query: String) {
+        currentQuery.value = query
+    }
+
     companion object {
-        private val DEFAULT_QUERY = GithubService.SortingOptions.FULL_NAME
+        private val DEFAULT_SEARCH_OPTION = GithubService.SortingOptions.FULL_NAME
+        private const val DEFAULT_QUERY = "akai-org"
         private const val CURRENT_SORTING_OPTION_KEY = "current_sorting"
+        private const val CURRENT_QUERY_KEY = "current_query"
     }
 }

@@ -16,6 +16,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="no_recent_contributors">There are no recent contributors 😔</string>
+    <string name="search_title">Search user</string>
     <string-array name="sort_orders">
         <item>Full name</item>
         <item>Created</item>

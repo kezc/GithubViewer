@@ -14,16 +14,23 @@ import javax.inject.Singleton
 class DefaultGithubDataRepository @Inject constructor(
     private val githubService: GithubService
 ) : GithubDataRepository {
-    override fun getRepositories(sortingOption: GithubService.SortingOptions) = Pager(
-        PagingConfig(NETWORK_PAGE_SIZE, enablePlaceholders = false),
-        pagingSourceFactory = { RepositoriesPagingSource(githubService, sortingOption) }
-    ).liveData
+    override fun getRepositories(user: String, sortingOption: GithubService.SortingOptions) =
+        Pager(
+            PagingConfig(NETWORK_PAGE_SIZE, enablePlaceholders = false),
+            pagingSourceFactory = { RepositoriesPagingSource(githubService, user, sortingOption) }
+        ).liveData
 
-    override fun getContributors(repositoryName: String): LiveData<Resource<List<GithubContributor>>> =
+    override fun getContributors(
+        user: String,
+        repositoryName: String
+    ): LiveData<Resource<List<GithubContributor>>> =
         liveData {
             emit(Resource.Loading<List<GithubContributor>>())
             try {
-                val res = githubService.searchRepositoryContributors(repositoryName)
+                val res = githubService.searchRepositoryContributors(
+                    user = user,
+                    repositoryName = repositoryName
+                )
                 val list = res.body()
                 if (res.isSuccessful && list != null) {
                     emit(Resource.Success(list))

@@ -16,20 +16,29 @@ import com.example.allegro.util.Resource
 class FakeGithubDataRepository(private val githubService: GithubService) : GithubDataRepository {
     var shouldReturnError = false
 
-    override fun getRepositories(sortingOption: GithubService.SortingOptions): LiveData<PagingData<GithubRepository>> =
+    override fun getRepositories(
+        user: String,
+        sortingOption: GithubService.SortingOptions
+    ): LiveData<PagingData<GithubRepository>> =
         Pager(
             PagingConfig(20, 40, false),
-            pagingSourceFactory = { RepositoriesPagingSource(githubService, sortingOption) }
+            pagingSourceFactory = { RepositoriesPagingSource(githubService, user, sortingOption) }
         ).liveData
 
-    override fun getContributors(repositoryName: String): LiveData<Resource<List<GithubContributor>>> =
+    override fun getContributors(
+        user: String,
+        repositoryName: String
+    ): LiveData<Resource<List<GithubContributor>>> =
         liveData {
             emit(Resource.Loading())
             val result = if (shouldReturnError) {
                 Resource.Error("Could not load data")
             } else {
                 Resource.Success(
-                    githubService.searchRepositoryContributors(repositoryName).body()!!
+                    githubService.searchRepositoryContributors(
+                        user = user,
+                        repositoryName = repositoryName
+                    ).body()!!
                 )
             }
             emit(result)

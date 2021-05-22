@@ -11,16 +11,18 @@ import retrofit2.http.Query
 
 interface GithubService {
     @Headers("Authorization: token $API_TOKEN")
-    @GET("orgs/allegro/repos")
+    @GET("users/{user}/repos")
     suspend fun searchRepositories(
+        @Path(value = "user", encoded = true) user: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
         @Query("sort") sort: String,
     ): List<GithubRepository>
 
     @Headers("Authorization: token $API_TOKEN")
-    @GET("repos/allegro/{repository_name}/contributors")
+    @GET("repos/{user}/{repository_name}/contributors")
     suspend fun searchRepositoryContributors(
+        @Path(value = "user", encoded = true) user: String,
         @Path(value = "repository_name", encoded = true) repositoryName: String,
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 10,
