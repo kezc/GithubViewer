@@ -7,16 +7,16 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.allegro.details.DetailsFragment"
+        android:name="com.example.githubViewer.details.DetailsFragment"
         android:label="Repository details"
         tools:layout="@layout/details_fragment">
         <argument
             android:name="repository"
-            app:argType="com.example.allegro.data.GithubRepository" />
+            app:argType="com.example.githubViewer.data.GithubRepository" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.allegro.list.ListFragment"
+        android:name="com.example.githubViewer.list.ListFragment"
         android:label="Repositories"
         tools:layout="@layout/fragment_list">
         <action
