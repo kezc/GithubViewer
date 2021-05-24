@@ -1,5 +1,12 @@
 # GithubViewer App
 
+## Installation
+
+Github API has rate limit, because of that you need to:
+
+1. Generate token [https://github.com/settings/tokens/](https://github.com/settings/tokens/). The app doesn't require any permissions.
+2. Paste the token to variable `github_token` inside *gradle.properties*.
+
 ## What does it do?
 
 This app allows you to search for users' GitHub repositories. You can also view details such as:
