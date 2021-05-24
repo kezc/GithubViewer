@@ -28,7 +28,7 @@ class RepositoriesPagingSourceTest {
         val fakeGithubService =
             FakeGithubService().apply { githubRepositories.forEach { addGithubRepositories(it) } }
         pagingSource =
-            RepositoriesPagingSource(fakeGithubService, GithubService.SortingOptions.FULL_NAME)
+            RepositoriesPagingSource(fakeGithubService, "", GithubService.SortingOptions.FULL_NAME)
     }
 
     @ExperimentalCoroutinesApi

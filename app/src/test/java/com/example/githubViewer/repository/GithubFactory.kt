@@ -19,7 +19,8 @@ class GithubFactory {
             "Polish",
             "",
             Date(),
-            Date()
+            Date(),
+            GithubRepository.Owner(1, "Wojtek", "")
         )
     }
 
